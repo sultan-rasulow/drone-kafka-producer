@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: drone
+  config:
+    import: optional:file:./env.properties
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092x}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      enable-idempotence: true
+      retries: ${KAFKA_RETRIES:3}
+      retry-backoff-ms: ${KAFKA_RETRY_BACKOFF_MS:100}
+      max-in-flight-requests-per-connection: ${KAFKA_MAX_IN_FLIGHT:1}
+      compression-type: ${KAFKA_COMPRESSION_TYPE:snappy}
+      linger-ms: ${KAFKA_LINGER_MS:10}
+      batch-size: 32768
+      buffer-memory: 33554432
+      request-timeout-ms: 30000
+      delivery-timeout-ms: 120000
+      add-type-info-headers: false
+      properties:
+        max.request.size: 1048576
+        metadata.max.age.ms: 300000
+    listener:
+      ack-mode: record
+
+server:
+  port: ${SERVER_PORT:8080}
+  shutdown: graceful
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
