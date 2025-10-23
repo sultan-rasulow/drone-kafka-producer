@@ -19,7 +19,7 @@ public class KafkaProducerConfiguration {
 
   @Bean
   public ProducerFactory<String, Object> producerFactory() {
-    Map<String, Object> config = kafkaProperties.getProducer().buildProperties(null);
+    Map<String, Object> config = kafkaProperties.buildProducerProperties();
     return new DefaultKafkaProducerFactory<>(config);
   }
 

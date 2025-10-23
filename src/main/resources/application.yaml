@@ -6,7 +6,7 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: 60s
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092x}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -27,6 +27,14 @@ spring:
         metadata.max.age.ms: 300000
     listener:
       ack-mode: record
+
+app:
+  kafka:
+    topic:
+      drones: drone-topic
+      auto-create: false
+      partitions: 3
+      replication-factor: 1
 
 server:
   port: ${SERVER_PORT:8080}
